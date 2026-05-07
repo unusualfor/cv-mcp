@@ -8,6 +8,7 @@ from cv_mcp import content
 mcp = FastMCP(
     "cv-mcp",
     streamable_http_path="/",
+    stateless_http=True,
     transport_security=TransportSecuritySettings(
         enable_dns_rebinding_protection=True,
         allowed_hosts=[
