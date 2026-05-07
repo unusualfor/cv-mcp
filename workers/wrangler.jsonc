@@ -4,6 +4,9 @@
   "main": "src/entry.py",
   "compatibility_flags": ["python_workers"],
   "compatibility_date": "2025-01-01",
+  "routes": [
+    { "pattern": "mcp.francescoforesta.com", "custom_domain": true }
+  ],
   "rules": [
     {
       "type": "Data",
