@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cv-mcp",
+  "main": "src/entry.py",
+  "compatibility_flags": ["python_workers"],
+  "compatibility_date": "2025-01-01",
+  "routes": [
+    { "pattern": "mcp.francescoforesta.com", "custom_domain": true }
+  ],
+  "rules": [
+    {
+      "type": "Data",
+      "globs": ["**/*.md"],
+      "fallthrough": true
+    }
+  ]
+}

@@ -11,7 +11,7 @@ Add this to your Claude Desktop `claude_desktop_config.json`:
   "mcpServers": {
     "cv-mcp": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.francescoforesta.com/mcp/"]
+      "args": ["-y", "mcp-remote", "https://mcp.francescoforesta.com/mcp"]
     }
   }
 }
@@ -44,34 +44,25 @@ Three MCP tools expose this content:
 ## Local development
 
 ```bash
-git clone https://github.com/unusualfor/cv-mcp.git
-cd cv-mcp
-uv sync
-uv run pytest        # 4 tests, content layer
-uv run cv-mcp-server # stdio MCP server for local Claude Desktop
-```
-
-To run the HTTP server locally (same as production):
-
-```bash
-uv run uvicorn cv_mcp.api:app --port 8000
-# MCP endpoint: http://localhost:8000/mcp/
-# Health check: http://localhost:8000/health
+cd workers
+uv run pywrangler dev
+# MCP endpoint: http://localhost:8787/mcp
+# Health check: http://localhost:8787/health
 ```
 
 ## Architecture
 
-Single Python process. Content files are loaded into memory at startup and indexed with SQLite FTS5 (in-process, zero external dependencies). The MCP server uses the Streamable HTTP transport, wrapped in a FastAPI app for deployment on Fly.io. No LLM calls happen server-side — the MCP server only serves content; the calling client (Claude Desktop or similar) handles LLM interaction.
+Cloudflare Workers (Python/Pyodide). Content files are loaded into memory on first request and indexed with SQLite FTS5 (in-process, zero external dependencies). The MCP server implements Streamable HTTP transport as plain JSON-RPC 2.0 — no `mcp` package, no FastAPI, no uvicorn. Stateless mode: each request is independent. No LLM calls happen server-side — the MCP server only serves content; the calling client (Claude Desktop or similar) handles LLM interaction.
 
 See [DECISIONS.md](DECISIONS.md) for detailed design rationale.
 
 ## Deployment
 
-Deployed on Fly.io at `mcp.francescoforesta.com`. Auto-deploys on push to `master` via GitHub Actions (test → build → deploy).
+Deployed on Cloudflare Workers at `mcp.francescoforesta.com`. Auto-deploys on push to `main` via GitHub Actions.
 
 ```bash
-# Manual deploy
-~/.fly/bin/flyctl deploy --remote-only
+cd workers
+uv run pywrangler deploy
 ```
 
 ## Roadmap
