@@ -244,11 +244,13 @@ class Default(WorkerEntrypoint):
 
         # GET /mcp — informational response for browsers/humans
         if method == "GET" and "/mcp" in url:
+            build = getattr(self.env, "BUILD_SHA", "dev")
             return Response(
                 json.dumps({
                     "name": "cv-mcp",
                     "protocol": "MCP Streamable HTTP",
                     "version": _PROTOCOL_VERSION,
+                    "build": build,
                     "endpoint": "POST /mcp",
                     "tools": [t["name"] for t in _TOOLS],
                 }),

@@ -22,3 +22,4 @@ jobs:
           workingDirectory: workers
           wranglerVersion: "4"
           packageManager: npm
+          command: deploy --var BUILD_SHA:${{ github.sha }}
