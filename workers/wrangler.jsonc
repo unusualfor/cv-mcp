@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cv-mcp",
+  "main": "src/entry.py",
+  "compatibility_flags": ["python_workers"],
+  "compatibility_date": "2025-01-01",
+  "rules": [
+    {
+      "type": "Data",
+      "globs": ["content/*.md"],
+      "fallthrough": true
+    }
+  ]
+}
