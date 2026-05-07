@@ -42,11 +42,12 @@ class ContentIndex:
 
         Args:
             content_dir: Path to directory containing *.md files.
-                         Defaults to content/ relative to the Worker bundle root.
+                         Defaults to content/ sibling to this module.
         """
         if content_dir is None:
-            # In Workers, files are relative to the entry point's parent.
-            content_dir = Path(__file__).resolve().parent.parent / "content"
+            # In Workers, all src/ files end up in the same metadata dir.
+            # content/ is a subdirectory relative to this file's location.
+            content_dir = Path(__file__).resolve().parent / "content"
         else:
             content_dir = Path(content_dir)
 
