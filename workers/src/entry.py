@@ -242,6 +242,19 @@ class Default(WorkerEntrypoint):
         if method == "POST" and "/mcp" in url:
             return await self._handle_mcp(request)
 
+        # GET /mcp — informational response for browsers/humans
+        if method == "GET" and "/mcp" in url:
+            return Response(
+                json.dumps({
+                    "name": "cv-mcp",
+                    "protocol": "MCP Streamable HTTP",
+                    "version": _PROTOCOL_VERSION,
+                    "endpoint": "POST /mcp",
+                    "tools": [t["name"] for t in _TOOLS],
+                }),
+                headers={"Content-Type": "application/json"},
+            )
+
         # Everything else: 404
         return Response("Not Found", status=404)
 
