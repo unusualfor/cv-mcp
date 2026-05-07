@@ -1,8 +1,8 @@
-name: Deploy Backend
+name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - "src/**"
       - "content/**"
