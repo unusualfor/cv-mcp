@@ -5,10 +5,9 @@ Loads CV markdown files from the content/ directory and builds an in-memory
 SQLite FTS5 index for full-text search. This module is designed for lazy
 initialization — instantiate ContentIndex on first request, not at module level.
 
-Ported from: src/cv_mcp/content.py (Fly.io version)
-Key difference: file paths are resolved relative to the Worker bundle root,
-and initialization is explicit (not at import time) to avoid Pyodide entropy
-restrictions during the deploy-time snapshot.
+Key difference from the original src/cv_mcp/content.py: file paths are resolved
+relative to the Worker bundle root, and initialization is explicit (not at import
+time) to avoid Pyodide entropy restrictions during the deploy-time snapshot.
 """
 
 import sqlite3
