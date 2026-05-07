@@ -4,7 +4,7 @@ from mcp.server.fastmcp import FastMCP
 
 from cv_mcp import content
 
-mcp = FastMCP("cv-mcp")
+mcp = FastMCP("cv-mcp", streamable_http_path="/")
 
 
 @mcp.tool(

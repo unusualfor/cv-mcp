@@ -2,6 +2,7 @@
 
 import json
 from collections.abc import Iterator
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,10 +12,24 @@ from pydantic import BaseModel
 from cv_mcp.providers import get_provider
 from cv_mcp.server import mcp as mcp_server
 
-app = FastAPI(title="cv-mcp")
+# Build the MCP ASGI app (creates session manager).
+_mcp_app = mcp_server.streamable_http_app()
 
-# Mount the MCP server at /mcp for direct MCP client access.
-app.mount("/mcp", mcp_server.streamable_http_app())
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async with mcp_server.session_manager.run():
+        yield
+
+
+app = FastAPI(title="cv-mcp", lifespan=lifespan)
+
+# Mount MCP sub-app at /mcp. Its internal route is "/" so the full path is /mcp.
+# Lifespan is managed by the parent app above; disable the sub-app's to avoid double-start.
+_mcp_app.router.on_startup = []
+_mcp_app.router.on_shutdown = []
+_mcp_app.router.lifespan_handler = None
+app.mount("/mcp", _mcp_app)
 
 app.add_middleware(
     CORSMiddleware,
