@@ -13,7 +13,7 @@ Add to `~/.config/claude/claude_desktop_config.json` (Linux) or `~/Library/Appli
       "command": "npx",
       "args": [
         "mcp-remote",
-        "https://cv-mcp.inusualfor.workers.dev/mcp"
+        "https://mcp.francescoforesta.com/mcp"
       ]
     }
   }
