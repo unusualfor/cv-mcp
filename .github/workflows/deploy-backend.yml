@@ -20,4 +20,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: workers
           wranglerVersion: "4"
-          packageManager: npx
+          packageManager: npm
