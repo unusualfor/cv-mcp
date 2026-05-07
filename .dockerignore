@@ -4,9 +4,7 @@
 __pycache__
 *.py[oc]
 bak/
-frontend/
 .github/
 tests/
-scripts/
 *.md
 !README.md
