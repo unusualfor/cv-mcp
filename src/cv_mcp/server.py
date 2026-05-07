@@ -12,7 +12,6 @@ mcp = FastMCP(
     transport_security=TransportSecuritySettings(
         enable_dns_rebinding_protection=True,
         allowed_hosts=[
-            "cv-mcp.fly.dev",
             "mcp.francescoforesta.com",
             "localhost:8000",
             "localhost:*",
