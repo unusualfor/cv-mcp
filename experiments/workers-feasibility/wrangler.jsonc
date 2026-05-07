@@ -1,0 +1,7 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cv-mcp-feasibility",
+  "main": "src/entry.py",
+  "compatibility_flags": ["python_workers"],
+  "compatibility_date": "2025-01-01"
+}

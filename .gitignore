@@ -11,3 +11,7 @@ wheels/
 
 # Local files
 bak/
+experiments/workers-feasibility/.wrangler/
+experiments/workers-feasibility/python_modules/
+experiments/workers-feasibility/.venv*/
+experiments/workers-feasibility/uv.lock

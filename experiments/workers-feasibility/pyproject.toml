@@ -1,0 +1,15 @@
+[project]
+name = "cv-mcp-workers-test"
+version = "0.1.0"
+description = "Feasibility test for cv-mcp on Cloudflare Workers"
+requires-python = ">=3.12"
+dependencies = [
+    "mcp",
+    "fastapi",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk",
+]
