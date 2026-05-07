@@ -18,11 +18,11 @@ v1 ships the MCP server alone — no web frontend, no server-side LLM calls. The
 
 ## Streamable HTTP transport over stdio-only
 
-The deployed MCP server uses the Streamable HTTP transport (MCP SDK's `streamable_http_app()`) rather than stdio-only. Stdio works for local connections (Claude Desktop → local process) but cannot be accessed over the network. Streamable HTTP exposes the MCP protocol over standard HTTPS, which means any MCP client anywhere can connect without running a local process. The tradeoff is needing an HTTP server (FastAPI + uvicorn), but that also gives us a health endpoint and standard deployment tooling. Stateless mode is enabled so requests can be load-balanced across Fly.io machines without session affinity.
+The deployed MCP server uses the Streamable HTTP transport rather than stdio-only. Stdio works for local connections (Claude Desktop → local process) but cannot be accessed over the network. Streamable HTTP exposes the MCP protocol over standard HTTPS, which means any MCP client anywhere can connect without running a local process. Stateless mode is enabled so requests are independent — no session affinity, no in-memory state between requests.
 
-## DNS-only (grey cloud) on Cloudflare
+## Cloudflare Workers over a long-running server
 
-The `mcp.francescoforesta.com` CNAME is set to DNS-only (grey cloud) rather than proxied (orange cloud). Fly.io provisions its own TLS certificate via Let's Encrypt, which requires DNS validation or direct connection. Cloudflare's proxy would terminate TLS with its own certificate and re-encrypt to Fly, adding latency and complexity. Since Fly handles TLS natively and the MCP endpoint doesn't need Cloudflare's CDN/WAF features, DNS-only is simpler and eliminates a potential failure mode in certificate renewal.
+The server runs on Cloudflare Workers (Python/Pyodide) rather than a containerized process on Fly.io. Workers provide: zero cold-start cost for warm isolates (3–6ms), no container management, no machine autoscaling config, global edge deployment, and the free tier covers this use case entirely. The tradeoff is the Pyodide runtime constraints (WASM, no arbitrary C extensions), but the dependency footprint (Pydantic + sqlite3) fits within those constraints.
 
 ## Cloudflare Workers migration: stateless Streamable HTTP without MCP SDK
 
