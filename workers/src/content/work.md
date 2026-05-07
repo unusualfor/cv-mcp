@@ -81,7 +81,7 @@
 - O-RAN Alliance F2F — Incheon, South Korea, Jun 2024. Delegate, JMA Wireless.
 - O-RAN Alliance F2F — Dallas, TX, USA, Nov 2025. Delegate, JMA Wireless.
 - O-RAN Alliance F2F — Rome, Italy, Feb 2026. Delegate, JMA Wireless.
-- 3GPP RAN Plenary #111 — Fukuoka, Japan, Mar 2026. Delegate, JMA Wireless.
+- 3GPP RAN Plenary 111 — Fukuoka, Japan, Mar 2026. Delegate, JMA Wireless.
 
 ## Teaching
 
@@ -103,8 +103,8 @@ Over eight years at JMA Wireless, numerous internal trainings, workshops, and ar
 - **JMA XRAN — Operations and Management** — internal O&M technical presentation, 2020.
 - **XRAN in Cloud — Lessons learnt by translating an always-changing product to a virtual, containerized, self-sustainable RAN running in Kubernetes** — RTMC training, December 2021.
 - **XRAN in Cloud** (series) — internal training variants delivered to QA, engineering, and partner lab teams across multiple JMA sites, 2022.
-- **Architecture Workshop #2** — internal architecture workshop, Bologna, March 2023.
-- **Architecture Workshop #2 — R&D transfer - O&M** — internal R&D transfer / O&M workshop across Bologna, Richmond, Chicago, Boulder, 2023.
+- **Architecture Workshop** — internal architecture workshop, Bologna, March 2023.
+- **Architecture Workshop — R&D transfer - O&M** — internal R&D transfer / O&M workshop across Bologna, Richmond, Chicago, Boulder, 2023.
 - **PlugFest #2 — Readout, observations, risks, mitigation** — internal Architecture Team readout, 2023.
 - **Standardization — Past, present, and future strategic assessment** — internal standards strategy briefing, 2026.
 - **Joint 3GPP / O-RAN Workshop on 6G Mgmt & Orchestration** — internal standards workshop report, 2026.
