@@ -43,6 +43,8 @@ Three MCP tools expose this content:
 
 ## Local development
 
+### MCP Server
+
 ```bash
 cd workers
 uv run pywrangler dev
@@ -50,13 +52,40 @@ uv run pywrangler dev
 # Health check: http://localhost:8787/health
 ```
 
+### Web UI
+
+```bash
+cd web
+npm install
+npm run dev
+# http://localhost:5173
+```
+
 ## Architecture
 
+```
+┌──────────────────────┐     Streamable HTTP      ┌──────────────────────┐
+│   cv.francescoforesta│    (JSON-RPC 2.0)        │  mcp.francescoforesta│
+│        .com          │ ──────────────────────►   │        .com/mcp      │
+│                      │                          │                      │
+│  Web Chat UI         │                          │  MCP Server          │
+│  (agents-starter)    │                          │  (Python/Pyodide)    │
+│  Workers AI (Kimi)   │                          │  SQLite FTS5 search  │
+│  Durable Objects     │                          │  5 CV sections       │
+│  WebSocket + React   │                          │  Stateless           │
+└──────────────────────┘                          └──────────────────────┘
+       web/                                              workers/
+```
+
 Cloudflare Workers (Python/Pyodide). Content files are loaded into memory on first request and indexed with SQLite FTS5 (in-process, zero external dependencies). The MCP server implements Streamable HTTP transport as plain JSON-RPC 2.0 — no `mcp` package, no FastAPI, no uvicorn. Stateless mode: each request is independent. No LLM calls happen server-side — the MCP server only serves content; the calling client (Claude Desktop or similar) handles LLM interaction.
+
+The **web UI** (`web/`) is a chat interface built with `cloudflare/agents-starter` (React 19, Tailwind CSS, `agents` SDK). It connects to the MCP server at startup, discovers the 3 tools, and uses Workers AI (`@cf/moonshotai/kimi-k2.6`) to answer questions about Francesco's CV. Chat history persists via Durable Objects with SQLite.
 
 See [DECISIONS.md](DECISIONS.md) for detailed design rationale.
 
 ## Deployment
+
+### MCP Server
 
 Deployed on Cloudflare Workers at `mcp.francescoforesta.com`. Auto-deploys on push to `main` via GitHub Actions.
 
@@ -64,6 +93,19 @@ Deployed on Cloudflare Workers at `mcp.francescoforesta.com`. Auto-deploys on pu
 cd workers
 uv run pywrangler deploy
 ```
+
+### Web UI
+
+Deployed at [`cv.francescoforesta.com`](https://cv.francescoforesta.com). Also available at `cv-web.inusualfor.workers.dev`.
+
+```bash
+cd web
+npm run deploy
+```
+
+### Rate limiting
+
+Recommended: add a Cloudflare WAF rate-limiting rule on `cv.francescoforesta.com/*` — 10 requests/minute per IP on the `/agents/*` path. Configure in the Cloudflare dashboard under Security → WAF → Rate limiting rules.
 
 ## Roadmap
 

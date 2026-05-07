@@ -35,3 +35,31 @@ The Workers deployment implements the MCP Streamable HTTP transport directly as 
 **Why Pydantic for validation only**: Pydantic snapshots cleanly at deploy time (no entropy calls). We use it only for input validation of tool arguments at the system boundary, not for response serialization. Tool responses are plain dicts matching the MCP TextContent schema.
 
 **Lazy initialization pattern**: Both content loading (file I/O) and FTS5 index construction happen on first request per isolate, not at module level. A module-level `_index: ContentIndex | None = None` variable caches the result. SQLite's `connect(":memory:")` requires entropy, which is only available at request time in the Workers runtime. First request pays ~50–100ms init; subsequent requests in the same isolate are sub-10ms.
+
+## Web UI: cloudflare/agents-starter as monorepo subdirectory (v1.5)
+
+The web chat UI at `cv.francescoforesta.com` lives in the `web/` subdirectory of the existing cv-mcp repo rather than a separate repository. The template is `cloudflare/agents-starter`, a Cloudflare-maintained starter for chat agents using the Agents SDK. This keeps both the MCP server (Python, `workers/`) and the chat UI (TypeScript, `web/`) in a single repo, sharing one git history and one set of project docs. The languages don't overlap and the directories are self-contained, so mixing Python and TypeScript is not a practical problem.
+
+## Workers AI (Kimi K2.6) over Anthropic Claude for v1.5
+
+The chat UI uses Workers AI's default model (`@cf/moonshotai/kimi-k2.6`) rather than Anthropic Claude. Workers AI is included free with the Cloudflare Workers free tier, requires no API key, and has no per-token cost. The model handles tool calls reliably enough for the cv-mcp use case. Migration to Anthropic Claude is tracked as a future option if tool use accuracy or response quality proves insufficient. The switch is a single-line change in `server.ts` plus adding an API key secret.
+
+## System prompt design
+
+The system prompt instructs the model to use the three cv-mcp tools in a specific order: `list_sections` to discover structure, `get_section` to read content, `search` for free-text lookup. It also instructs the model to admit when data doesn't contain an answer rather than speculating. The tone is sober and informative — no promotional language, no embellishment. This matches the editorial rules established for the cv-mcp content itself. The prompt explicitly tells the model to compose multiple tool calls when needed, since the MCP server is stateless and each call is cheap.
+
+## Disabled template features
+
+The agents-starter template ships with several features that are irrelevant to a CV chat assistant:
+
+- **Image input** — removed. CV queries are text-only; vision adds complexity and cost for no value.
+- **Scheduling** — removed. There's nothing to schedule in a CV chat.
+- **Demo tools** (weather, calculator, timezone) — removed. Only the three cv-mcp MCP tools are exposed.
+- **Client-side tool handling** — simplified. No client-side tools remain.
+- **Drag-and-drop / paste for files** — removed along with image support.
+
+The MCP server panel, debug mode toggle, theme toggle, and chat persistence via Durable Objects are retained as-is from the template.
+
+## Custom domain via Workers custom_domain route
+
+Both `cv.francescoforesta.com` (web UI) and `mcp.francescoforesta.com` (MCP server) use Workers custom domain routing (`"custom_domain": true` in `routes`). This lets Cloudflare auto-provision DNS records and TLS certificates without manually creating CNAME records or managing SSL. The `workers_dev` flag is also set to `true` so the `.workers.dev` fallback URL remains accessible.
