@@ -1,0 +1,14 @@
+[project]
+name = "cv-mcp-workers"
+version = "1.0.0"
+description = "MCP server for Francesco Foresta's CV — Cloudflare Workers deployment"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk",
+]
