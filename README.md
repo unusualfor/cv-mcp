@@ -1,108 +1,83 @@
 # cv-mcp
 
-MCP server exposing Francesco Foresta's professional CV as a queryable knowledge source, with a web chat frontend.
+MCP server exposing Francesco Foresta's professional CV as a queryable knowledge source.
 
-## Quick start
+## Quick start — connect from Claude Desktop
 
-```bash
-# Install dependencies
-uv sync
-
-# Run tests
-uv run pytest
-
-# Start the MCP server (stdio)
-uv run cv-mcp-server
-
-# Start the full dev environment (backend + frontend)
-export GOOGLE_API_KEY="..."   # or ANTHROPIC_API_KEY
-./scripts/dev.sh
-```
-
-Once running:
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8000/api/chat
-- Health check: http://localhost:8000/health
-- MCP endpoint: http://localhost:8000/mcp
-
-## Connecting to Claude Desktop
-
-Add this to your `claude_desktop_config.json`:
+Add this to your Claude Desktop `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "cv-mcp": {
-      "command": "wsl.exe",
-      "args": ["-d", "fedoraremix", "--", "/home/francesco/.local/bin/uv", "--directory", "/home/francesco/cv-mcp", "run", "cv-mcp-server"]
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.francescoforesta.com/mcp/"]
     }
   }
 }
 ```
 
-Then restart Claude Desktop and ask: "What sections does this CV have?"
+Restart Claude Desktop, then ask: *"What sections does this CV have?"*
 
-## Project structure
+> **Note**: `mcp-remote` bridges the remote Streamable HTTP endpoint to Claude Desktop's stdio transport. Requires Node.js installed.
 
+## What's inside
+
+Five curated markdown files covering Francesco's professional background:
+
+| Section | Content |
+|---------|---------|
+| `profile` | Identity, bio, contact, certifications, awards, languages |
+| `experience` | Roles and organizations with dates and key achievements |
+| `work` | Patents, publications, talks, standards work |
+| `tech` | Technologies and partner companies with usage context |
+| `narrative` | Career arc organized in phases |
+
+Three MCP tools expose this content:
+
+| Tool | Purpose |
+|------|---------|
+| `list_sections` | Discover available sections and their descriptions |
+| `get_section` | Read the full markdown of a section by name |
+| `search` | Full-text search across all sections (BM25 ranking) |
+
+## Local development
+
+```bash
+git clone https://github.com/unusualfor/cv-mcp.git
+cd cv-mcp
+uv sync
+uv run pytest        # 4 tests, content layer
+uv run cv-mcp-server # stdio MCP server for local Claude Desktop
 ```
-content/          # 5 markdown files (profile, experience, work, tech, narrative)
-frontend/         # Static HTML/CSS/JS chat UI
-src/cv_mcp/
-  content.py     # Loads markdown, builds FTS5 index, exposes accessors
-  server.py      # MCP server with 3 tool definitions
-  api.py         # FastAPI app with SSE streaming chat endpoint
-  providers.py   # LLM provider abstraction (Anthropic, Google)
-  prompts.py     # System prompt
-tests/
-  test_content.py
-  test_api.py
+
+To run the HTTP server locally (same as production):
+
+```bash
+uv run uvicorn cv_mcp.api:app --port 8000
+# MCP endpoint: http://localhost:8000/mcp/
+# Health check: http://localhost:8000/health
 ```
 
-## Tools exposed
+## Architecture
 
-| Tool | Description |
-|------|-------------|
-| `list_sections` | List available CV sections with descriptions |
-| `get_section` | Get full markdown content of a section by name |
-| `search` | Full-text search across all sections |
+Single Python process. Content files are loaded into memory at startup and indexed with SQLite FTS5 (in-process, zero external dependencies). The MCP server uses the Streamable HTTP transport, wrapped in a FastAPI app for deployment on Fly.io. No LLM calls happen server-side — the MCP server only serves content; the calling client (Claude Desktop or similar) handles LLM interaction.
+
+See [DECISIONS.md](DECISIONS.md) for detailed design rationale.
 
 ## Deployment
 
-### Backend (Fly.io)
-
-The backend deploys automatically on push to `main` (when `src/`, `content/`, or config files change).
+Deployed on Fly.io at `mcp.francescoforesta.com`. Auto-deploys on push to `master` via GitHub Actions (test → build → deploy).
 
 ```bash
 # Manual deploy
-flyctl deploy --remote-only
-
-# Set secrets
-flyctl secrets set GOOGLE_API_KEY="..." ANTHROPIC_API_KEY="..."
+~/.fly/bin/flyctl deploy --remote-only
 ```
 
-- Production URL: `https://cv-mcp.fly.dev`
-- Custom domain: `mcp.francescoforesta.com` (CNAME → cv-mcp.fly.dev, DNS-only)
+## Roadmap
 
-### Frontend (GitHub Pages)
+See [ROADMAP.md](ROADMAP.md).
 
-The frontend deploys automatically on push to `main` (when `frontend/` changes).
+## License
 
-- Production URL: `https://cv.francescoforesta.com` (CNAME → GitHub Pages, proxied)
-
-### DNS (Cloudflare)
-
-| Record | Name | Target | Proxy |
-|--------|------|--------|-------|
-| CNAME | `cv` | `<user>.github.io` | Proxied (orange) |
-| CNAME | `mcp` | `cv-mcp.fly.dev` | DNS-only (grey) |
-
-### Environment variables
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GOOGLE_API_KEY` | One of these | Google AI Studio API key |
-| `ANTHROPIC_API_KEY` | required | Anthropic API key |
-| `GOOGLE_MODEL` | No | Override model (default: `gemini-2.5-flash`) |
-| `ANTHROPIC_MODEL` | No | Override model (default: `claude-sonnet-4-5-20250514`) |
-| `LLM_PROVIDER` | No | Force provider: `google` or `anthropic` |
-| `CV_MCP_CONTENT_DIR` | No | Override content directory path |
+MIT
