@@ -1,24 +1,15 @@
 # Roadmap
 
-## v1 — MCP-only (current, shipped)
+## v1 — MCP-only (shipped)
 
 The MCP server exposes Francesco Foresta's CV at `mcp.francescoforesta.com`.
 Connect from Claude Desktop or any MCP-capable client. See README for setup.
 
-## v1.5 — Web UI (deferred)
+## v1.5 — Web UI (current, shipped)
 
-A public web frontend at `cv.francescoforesta.com` will provide a chat
+A public web frontend at `cv.francescoforesta.com` provides a chat
 interface for non-technical visitors. Reference implementation lives in
-the `feature/web-ui` branch. Tasks include:
-
-- FastAPI chat endpoint that wraps the MCP content layer and calls an LLM
-  with the three tools attached.
-- Streaming response handling (SSE).
-- Multi-provider LLM abstraction (Anthropic, Google AI Studio).
-- Vanilla HTML/CSS/JS frontend.
-- Prompt caching for cost optimization.
-- Cloudflare proxy for rate limiting on the chat endpoint.
-- Per-request observability (model, tokens in/out, cached tokens, cost).
+the `feature/web-ui` branch. 
 
 ## Future ideas
 

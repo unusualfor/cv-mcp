@@ -2,7 +2,11 @@
 
 MCP server exposing Francesco Foresta's professional CV as a queryable knowledge source.
 
-## Quick start — connect from Claude Desktop
+## Web
+
+A UI connected to the MCP is deployed at [`cv.francescoforesta.com`](https://cv.francescoforesta.com). 
+
+## MCP hands-on? Connect from Claude Desktop
 
 Add this to your Claude Desktop `claude_desktop_config.json`:
 
@@ -96,16 +100,10 @@ uv run pywrangler deploy
 
 ### Web UI
 
-Deployed at [`cv.francescoforesta.com`](https://cv.francescoforesta.com). Also available at `cv-web.inusualfor.workers.dev`.
-
 ```bash
 cd web
 npm run deploy
 ```
-
-### Rate limiting
-
-Recommended: add a Cloudflare WAF rate-limiting rule on `cv.francescoforesta.com/*` — 10 requests/minute per IP on the `/agents/*` path. Configure in the Cloudflare dashboard under Security → WAF → Rate limiting rules.
 
 ## Roadmap
 
