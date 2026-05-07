@@ -1,10 +1,24 @@
 """MCP server exposing Francesco Foresta's CV via three tools."""
 
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
 
 from cv_mcp import content
 
-mcp = FastMCP("cv-mcp", streamable_http_path="/")
+mcp = FastMCP(
+    "cv-mcp",
+    streamable_http_path="/",
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=[
+            "cv-mcp.fly.dev",
+            "mcp.francescoforesta.com",
+            "localhost:8000",
+            "localhost:*",
+            "127.0.0.1:*",
+        ],
+    ),
+)
 
 
 @mcp.tool(
