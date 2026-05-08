@@ -11,6 +11,7 @@ Defines and drives technology strategy and architecture direction across carrier
 **Key work:**
 
 - Built a strategic standards-engagement proposal for JMA, recommending a sustainable 3GPP/O-RAN monitoring and participation model with FTE justification and working-group prioritization.
+- Co-signed a joint proposal to O-RAN TSC and 3GPP SA5 with other companies (AT&T, DTAG, Ericsson, JMA Wireless, KDDI, Mavenir, Nokia, NTT DoCoMo, Orange, Qualcomm, Rakuten Mobile Inc, Samsung, TIM, Verizon) to shape 6G O&M in 3GPP and O-RAN.
 - Led DAS 3.0/Jazz architecture planning and supported development, covering RF-to-eCPRI POI and variants, O-RAN POI variants, RU/switch/supervisor integration, and PoC framing with support to multiple feasibility checkpoints, High Level Architecture design, support to Low Level Architecture definition, Feature Requirements Specification definition, integration validation (PTP/SyncE, G.8275.1, DHCP/NETCONF call-home, etc.).
 - Drove advanced development inputs for BBU and platform evolution, including Distributed Massive MIMO, DPDK/VPP-based data plane, edge OS (Yocto, bootc, MicroShift, etc.).
 - Escalated and structured partner technical issues affecting XRAN product releases.

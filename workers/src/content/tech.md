@@ -38,8 +38,8 @@
 - **XRAN / BBU** — primary workload across all JMA roles. Cloud-native execution models, containerization, performance dimensioning, and system architecture from 2018 onward.
 - **5G NR** — system architecture for gNB CU-CP, CU-UP, and DU components across multiple software releases.
 - **4G LTE / eNB** — multi-operator eNB configurations (Cisco lab), CBRS integration, and coexistence with 5G in XRAN deployments.
-- **O-RAN** — M-Plane enablement (WG4), standards tracking (WG11), plugfest participation, third-party O-RU integration, and O-RAN POI architecture for DAS. Delegate at four O-RAN Alliance F2F meetings (2024–2026).
-- **3GPP** — standards strategy and monitoring, delegate at RAN Plenary 111 (Fukuoka, 2026). 6G study tracking through nGRG workshops.
+- **O-RAN** — standards tracking (WG1, WG4, WG6, WG10, WG11, TSC, nGRG), plugfest participation, third-party O-RU integration, and O-RAN POI architecture for DAS. Delegate at four O-RAN Alliance F2F meetings (2024–2026) and 6G Management & Automation workshop, co-signed a joint proposal to O-RAN TSC and 3GPP SA5 with other companies (AT&T, DTAG, Ericsson, JMA Wireless, KDDI, Mavenir, Nokia, NTT DoCoMo, Orange, Qualcomm, Rakuten Mobile Inc, Samsung, TIM, Verizon) to shape 6G O&M in 3GPP and O-RAN.
+- **3GPP** — standards strategy and monitoring, delegate at RAN Plenary 111 (Fukuoka, 2026). 6G study tracking.
 - **eCPRI / CPRI** — fronthaul protocols for O-RAN and DAS architectures, including RF-to-eCPRI POI and Cat-A/Cat-B variants.
 - **DAS** — Jazz DAS system architecture from 2025, covering RU variants, switch integration, supervisor connectivity, vPOI PTP, and timing.
 - **NETCONF / YANG** — concrete requirements definition for switch management, O-RU M-Plane integration, and OpenConfig model adoption across Fibrolan, Cisco, and Ciena.

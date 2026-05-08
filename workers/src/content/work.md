@@ -65,6 +65,13 @@
   Francesco Foresta.
   Explores dynamic composition of virtual network functions in cloud environments, laying the foundation for subsequent SDN and cloud computing research.
 
+### Public documents
+
+- **ORA.AO-2026.05.07-TSC-I-6G Management & Automation Workshop**
+  Co-signed joint proposal to O-RAN TSC with other companies (AT&T, DTAG, Ericsson, JMA Wireless, KDDI, Mavenir, Nokia, NTT DoCoMo, Orange, Qualcomm, Rakuten Mobile Inc, Samsung, TIM, Verizon) to shape 6G O&M in 3GPP and O-RAN
+- **TDoc S5-261xxx**
+  Co-signed joint proposal to O-RAN TSC with other companies (AT&T, DTAG, Ericsson, JMA Wireless, KDDI, Mavenir, Nokia, Orange, Qualcomm, Rakuten Mobile Inc, TIM, Verizon) to shape 6G O&M in 3GPP and O-RAN
+
 ## Talks and panels
 
 - **Smooth sailing ahead? Navigating the Edge challenges, and preparing to correct the course**
@@ -82,6 +89,7 @@
 - O-RAN Alliance F2F — Dallas, TX, USA, Nov 2025. Delegate, JMA Wireless.
 - O-RAN Alliance F2F — Rome, Italy, Feb 2026. Delegate, JMA Wireless.
 - 3GPP RAN Plenary 111 — Fukuoka, Japan, Mar 2026. Delegate, JMA Wireless.
+- 6G Management & Automation workshop - Paris, France, Apr 2026, JMA Wireless. 
 
 ## Teaching
 
