@@ -69,7 +69,7 @@
 
 - **ORA.AO-2026.05.07-TSC-I-6G Management & Automation Workshop**
   Co-signed joint proposal to O-RAN TSC with other companies (AT&T, DTAG, Ericsson, JMA Wireless, KDDI, Mavenir, Nokia, NTT DoCoMo, Orange, Qualcomm, Rakuten Mobile Inc, Samsung, TIM, Verizon) to shape 6G O&M in 3GPP and O-RAN
-- **TDoc S5-261xxx**
+- **TDoc S5-262262**
   Co-signed joint proposal to O-RAN TSC with other companies (AT&T, DTAG, Ericsson, JMA Wireless, KDDI, Mavenir, Nokia, Orange, Qualcomm, Rakuten Mobile Inc, TIM, Verizon) to shape 6G O&M in 3GPP and O-RAN
 
 ## Talks and panels
